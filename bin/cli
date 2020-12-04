@@ -2,7 +2,7 @@
 'use strict'
 
 const program = require('commander')
-const orchestrator = require('../index.js')
+const orchestrator = require('../lib/main')
 const pjson = require('../package.json')
 
 program
@@ -22,28 +22,23 @@ program
     'source package specific output [./output]',
     './output'
   )
-  .option (
-    '-i, --ignore [file]',
-     'ignore file to use [./.forceignore]',
-     './.forceignore'
-  )
-  .option('-a, --api-version [version]', 'salesforce API version [49]', '49')
-  .option('-r, --repo [dir]', 'git repository location [./repo]', './repo')
+  .option('-i, --ignore [file]', 'ignore file to use [./.forceignore]')
+  .option('-a, --api-version [version]', 'salesforce API version [50]', '50')
+  .option('-r, --repo [dir]', 'git repository location [.]', '.')
   .option('-d, --generate-delta', 'generate delta files in [./output] folder')
   .parse(process.argv)
+
+program.ignore = program.ignore === true ? './.forceignore' : program.ignore
 
 const output = {
   error: null,
   output: program.output,
   success: true,
-  warnings: null,
+  warnings: [],
 }
 try {
   const jobResult = orchestrator(program)
-  if (jobResult?.warnings?.length) {
-    output.warnings = jobResult.warnings.map(warning => warning.message)
-  }
-  process.exitCode = 0
+  output.warnings = jobResult?.warnings?.map(warning => warning.message)
 } catch (err) {
   output.success = false
   output.error = err.message

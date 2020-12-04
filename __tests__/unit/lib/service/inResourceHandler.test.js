@@ -1,5 +1,5 @@
 'use strict'
-const InResource = require('../../../../lib/service/inResourceHandler')
+const InResource = require('../../../../src/service/inResourceHandler')
 jest.mock('fs')
 jest.mock('fs-extra')
 
@@ -21,6 +21,11 @@ const testContext = {
       'force-app/main/default/staticresources/erase.resource-meta.xml',
       new Set(['erase']),
     ],
+    [
+      'waveTemplates',
+      'force-app/main/default/waveTemplates/WaveTemplateTest/template-info.json',
+      new Set(['WaveTemplateTest']),
+    ],
   ],
   work: {
     config: { output: '', repo: '', generateDelta: true },
@@ -35,6 +40,8 @@ describe('test inResourceHandler', () => {
       'force-app/main/default/staticresources/test/content': 'test',
       'force-app/main/default/staticresources/resource.resource-meta.xml':
         'resource',
+      'force-app/main/default/waveTemplates/WaveTemplateTest/template-info.json':
+        '{"test":"test"}',
     })
   })
 

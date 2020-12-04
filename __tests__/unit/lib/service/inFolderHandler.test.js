@@ -1,5 +1,5 @@
 'use strict'
-const InFolder = require('../../../../lib/service/inFolderHandler')
+const InFolder = require('../../../../src/service/inFolderHandler')
 jest.mock('fs')
 
 const testContext = {
@@ -9,6 +9,11 @@ const testContext = {
       'dashboards',
       'force-app/main/default/dashboards/folder/file.dashboard-meta.xml',
       new Set(['folder/file']),
+    ],
+    [
+      'reports',
+      'force-app/main/default/reports/folder.reportFolder-meta.xml',
+      new Set(['folder']),
     ],
   ],
   work: {

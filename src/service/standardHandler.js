@@ -25,6 +25,8 @@ class StandardHandler {
       this.line = this.line.replace(mc.METAFILE_SUFFIX, '')
     }
 
+    this.suffixRegex = new RegExp(`\\.${this.metadata[this.type].suffix}$`)
+
     this.handlerMap = {
       A: this.handleAddition,
       D: this.handleDeletion,
@@ -66,12 +68,9 @@ class StandardHandler {
 
   _getParsedPath() {
     return path.parse(
-      this.splittedLine[this.splittedLine.indexOf(this.type) + 1].replace(
-        new RegExp(
-          `\\.${this.metadata[this.type].suffix}${mc.METAFILE_SUFFIX}$`
-        ),
-        ''
-      )
+      this.splittedLine[this.splittedLine.indexOf(this.type) + 1]
+        .replace(mc.META_REGEX, '')
+        .replace(this.suffixRegex, '')
     )
   }
 

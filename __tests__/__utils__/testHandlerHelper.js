@@ -1,12 +1,12 @@
 'use strict'
-const metadataManager = require('../../lib/metadata/metadataManager')
+const metadataManager = require('../../src/metadata/metadataManager')
 
-global.globalMetadata = metadataManager.getDefinition('directoryName', 49)
+global.globalMetadata = metadataManager.getDefinition('directoryName', 50)
 global.testHandlerHelper = testContext => {
   describe(`test if ${testContext.handler.name}`, () => {
     describe.each(testContext.testData)(
       'handles',
-      (type, changePath, expected) => {
+      (type, changePath, expected, expectedType) => {
         beforeEach(
           () =>
             (testContext.work.diffs = { package: {}, destructiveChanges: {} })
@@ -31,7 +31,7 @@ global.testHandlerHelper = testContext => {
           )
           handler.handle()
           expect(testContext.work.diffs.destructiveChanges).toHaveProperty(
-            type,
+            expectedType ?? type,
             expected
           )
         })
